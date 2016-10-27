@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        html {
+            text-align: center;
+        }
+        body {
+            margin-top: 150px;
+        }
+        .buttons {
+            margin-bottom: 20px;
+        }
+        #result {
+            font-size: 20px;
+        }
+        #box {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border: 1px solid black;
+            margin: 70px auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Electron background process demo</h1>
+<div id='box'></div>
+<div class="buttons">
+    <button id='background-button' class="btn btn-lg btn-primary">Background</button>
+    <button id='foreground-button' class="btn btn-lg btn-primary">Foreground</button>
+</div>
+<p id="result" class="label label-lg label-success"></p>
+<script>
+    const ElectronProcessIPC = require('electron-process-ipc').ElectronProcessIPC;
+    console.log('[foreground.html] ---   ForegroundProcess    -----  =', ElectronProcessIPC);
+    var electronProcessIPC = new ElectronProcessIPC();
+    // Set up background button
+    const asyncModule = electronProcessIPC.foreground.getModule(require('./cpuIntensive'));
+    const backgroundButton = document.getElementById('background-button');
+    backgroundButton.onclick = function() {
+        asyncModule.doCallbackStuff((response) => document.getElementById('result').innerText = response + '%')
+        .then((result) => document.getElementById('result').innerText = 'Done!')
+        .catch((reason) => console.error(reason));
+    }
+
+    // Set up foreground button
+    const syncModule = require('./cpuIntensive');
+    const foregroundButton = document.getElementById('foreground-button');
+    foregroundButton.onclick = function() {
+        document.getElementById('result').innerText = '0%';
+        const result = syncModule.doCallbackStuff((response) => document.getElementById('result').innerText = 'Done!');
+        // document.getElementById('result').innerText = result
+    }
+    // Rotate box
+    const box = document.getElementById('box');
+    var i = 0;
+    setInterval(() => {
+        box.style.transform = `rotate(${i++}deg)`;
+    }, 16);
+</script>
+</body>
+</html>

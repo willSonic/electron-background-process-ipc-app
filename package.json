@@ -1,0 +1,19 @@
+{
+  "name": "electron-background-process",
+  "version": "0.1.0",
+  "description": "Example application to demonstrate background processes in electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kyle Smith",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "electron-prebuilt": "^0.36.4",
+    "electron-process-ipc": "git://github.com/WillStreeter/electron-process-ipc.git#6605aab92a5b26dc0800519e83a1eb83f5b8ae79",
+    "lodash": "^4.16.4",
+    "object-hash": "^1.1.4"
+  }
+}

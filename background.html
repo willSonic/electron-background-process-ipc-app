@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        const ElectronProcessIPC = require('electron-process-ipc').ElectronProcessIPC;
+        var electronProcessIPC = new ElectronProcessIPC();
+        electronProcessIPC.background.registerModule(require('./cpuIntensive'));
+    </script>
+</head>
+<body>
+<h1>Background window</h1>
+</body>
+</html>
